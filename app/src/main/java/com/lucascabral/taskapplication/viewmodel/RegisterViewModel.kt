@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.lucascabral.taskapplication.service.HeaderModel
+import com.lucascabral.taskapplication.service.model.HeaderModel
 import com.lucascabral.taskapplication.service.constants.TaskConstants
 import com.lucascabral.taskapplication.service.listener.ApiListener
 import com.lucascabral.taskapplication.service.listener.ValidationListener

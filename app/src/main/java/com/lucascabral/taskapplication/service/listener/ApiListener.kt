@@ -1,6 +1,6 @@
 package com.lucascabral.taskapplication.service.listener
 
-import com.lucascabral.taskapplication.service.HeaderModel
+import com.lucascabral.taskapplication.service.model.HeaderModel
 
 
 interface ApiListener {

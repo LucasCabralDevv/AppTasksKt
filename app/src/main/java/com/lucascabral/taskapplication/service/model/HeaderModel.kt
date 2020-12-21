@@ -1,4 +1,4 @@
-package com.lucascabral.taskapplication.service
+package com.lucascabral.taskapplication.service.model
 
 import com.google.gson.annotations.SerializedName
 

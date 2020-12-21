@@ -3,7 +3,7 @@ package com.lucascabral.taskapplication.service.repository
 import android.content.Context
 import com.google.gson.Gson
 import com.lucascabral.taskapplication.R
-import com.lucascabral.taskapplication.service.HeaderModel
+import com.lucascabral.taskapplication.service.model.HeaderModel
 import com.lucascabral.taskapplication.service.constants.TaskConstants
 import com.lucascabral.taskapplication.service.listener.ApiListener
 import com.lucascabral.taskapplication.service.repository.remote.PersonService
