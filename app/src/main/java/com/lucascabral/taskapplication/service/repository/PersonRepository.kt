@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.lucascabral.taskapplication.R
 import com.lucascabral.taskapplication.service.model.HeaderModel
 import com.lucascabral.taskapplication.service.constants.TaskConstants
-import com.lucascabral.taskapplication.service.listener.ApiListener
+import com.lucascabral.taskapplication.service.listener.APIListener
 import com.lucascabral.taskapplication.service.repository.remote.PersonService
 import com.lucascabral.taskapplication.service.repository.remote.RetrofitClient
 import retrofit2.Call
@@ -16,7 +16,7 @@ class PersonRepository(val context: Context) {
 
     private val mRemote = RetrofitClient.createService(PersonService::class.java)
 
-    fun login(email: String, password: String, listener: ApiListener) {
+    fun login(email: String, password: String, listener: APIListener<HeaderModel>) {
 
         val call: Call<HeaderModel> = mRemote.login(email, password)
         call.enqueue(object : Callback<HeaderModel> {
@@ -37,7 +37,7 @@ class PersonRepository(val context: Context) {
         })
     }
 
-    fun create(name: String, email: String, password: String, listener: ApiListener) {
+    fun create(name: String, email: String, password: String, listener: APIListener<HeaderModel>) {
 
         val call: Call<HeaderModel> = mRemote.create(name, email, password, true)
         call.enqueue(object : Callback<HeaderModel> {

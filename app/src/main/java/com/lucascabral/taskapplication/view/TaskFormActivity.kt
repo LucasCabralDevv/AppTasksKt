@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.lucascabral.taskapplication.R
+import com.lucascabral.taskapplication.service.model.TaskModel
 import com.lucascabral.taskapplication.viewmodel.TaskFormViewModel
 import kotlinx.android.synthetic.main.activity_task_form.*
 import java.text.SimpleDateFormat
@@ -17,6 +19,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener, DatePickerDi
 
     private lateinit var mViewModel: TaskFormViewModel
     private val mDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+    private val mListPriorityId: MutableList<Int> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +37,7 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener, DatePickerDi
     override fun onClick(v: View) {
         val id = v.id
         if (id == R.id.button_save) {
-
-
+            handleSave()
         } else if (id == R.id.button_date) {
             showDatePicker()
         }
@@ -47,6 +49,18 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener, DatePickerDi
 
         val str = mDateFormat.format(calendar.time)
         button_date.text = str
+    }
+
+    private fun handleSave() {
+
+        val task = TaskModel().apply {
+            this.description = edit_description.text.toString()
+            this.complete = check_complete.isChecked
+            this.priorityId = mListPriorityId[spinner_priority.selectedItemPosition]
+            this.dueDate = button_date.text.toString()
+        }
+
+        mViewModel.save(task)
     }
 
     private fun showDatePicker() {
@@ -63,10 +77,18 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener, DatePickerDi
             val list: MutableList<String> = arrayListOf()
             for (item in it) {
                 list.add(item.description)
+                mListPriorityId.add(item.id)
             }
-
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, list)
             spinner_priority.adapter = adapter
+        })
+
+        mViewModel.validation.observe(this, androidx.lifecycle.Observer {
+            if (it.success()) {
+                Toast.makeText(this, "Sucesso!", Toast.LENGTH_SHORT).show()
+            }else {
+                Toast.makeText(this, it.failure(), Toast.LENGTH_SHORT).show()
+            }
         })
     }
 

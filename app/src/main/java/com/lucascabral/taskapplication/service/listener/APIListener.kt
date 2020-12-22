@@ -3,9 +3,9 @@ package com.lucascabral.taskapplication.service.listener
 import com.lucascabral.taskapplication.service.model.HeaderModel
 
 
-interface ApiListener {
+interface APIListener<T> {
 
-    fun onSuccess(model: HeaderModel)
+    fun onSuccess(model: T)
 
     fun onFailure(str: String)
 }

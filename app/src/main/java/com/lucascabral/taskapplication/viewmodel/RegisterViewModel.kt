@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.lucascabral.taskapplication.service.model.HeaderModel
 import com.lucascabral.taskapplication.service.constants.TaskConstants
-import com.lucascabral.taskapplication.service.listener.ApiListener
+import com.lucascabral.taskapplication.service.listener.APIListener
 import com.lucascabral.taskapplication.service.listener.ValidationListener
 import com.lucascabral.taskapplication.service.repository.PersonRepository
 import com.lucascabral.taskapplication.service.repository.local.SecurityPreferences
@@ -20,7 +20,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     var create: LiveData<ValidationListener> = mCreate
 
     fun create(name: String, email: String, password: String) {
-        mPersonRepository.create(name, email, password, object : ApiListener{
+        mPersonRepository.create(name, email, password, object : APIListener<HeaderModel> {
             override fun onSuccess(model: HeaderModel) {
                 mSharedPreferences.store(TaskConstants.SHARED.TOKEN_KEY, model.token)
                 mSharedPreferences.store(TaskConstants.SHARED.PERSON_KEY, model.personKey)
