@@ -5,11 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lucascabral.taskapplication.service.listener.TaskListener
 import com.lucascabral.taskapplication.R
+import com.lucascabral.taskapplication.service.model.TaskModel
 import com.lucascabral.taskapplication.view.viewholder.TaskViewHolder
 
 class TaskAdapter : RecyclerView.Adapter<TaskViewHolder>() {
 
-    // private var mList: List<TaskModel> = arrayListOf()
+    private var mList: List<TaskModel> = arrayListOf()
     private lateinit var mListener: TaskListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -19,16 +20,20 @@ class TaskAdapter : RecyclerView.Adapter<TaskViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return 0
-        // return mList.count()
+        return mList.count()
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bindData()
+        holder.bindData(mList[position])
     }
 
     fun attachListener(listener: TaskListener) {
         mListener = listener
+    }
+
+    fun updateListener(list: List<TaskModel>) {
+        this.mList = list
+        notifyDataSetChanged()
     }
 
 }
