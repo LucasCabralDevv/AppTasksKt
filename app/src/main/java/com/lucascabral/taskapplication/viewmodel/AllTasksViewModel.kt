@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lucascabral.taskapplication.service.listener.APIListener
+import com.lucascabral.taskapplication.service.listener.ValidationListener
 import com.lucascabral.taskapplication.service.model.PriorityModel
 import com.lucascabral.taskapplication.service.model.TaskModel
 import com.lucascabral.taskapplication.service.repository.TaskRepository
@@ -16,6 +17,9 @@ class AllTasksViewModel(application: Application) : AndroidViewModel(application
 
     private val mList = MutableLiveData<List<TaskModel>>()
     var tasks: LiveData<List<TaskModel>> = mList
+
+    private val mValidation = MutableLiveData<ValidationListener>()
+    var validation: LiveData<ValidationListener> = mValidation
 
     fun list() {
         mTaskRepository.all(object : APIListener<List<TaskModel>> {
@@ -33,9 +37,11 @@ class AllTasksViewModel(application: Application) : AndroidViewModel(application
         mTaskRepository.delete(id, object : APIListener<Boolean> {
             override fun onSuccess(model: Boolean) {
                 list()
+                mValidation.value = ValidationListener()
             }
 
             override fun onFailure(str: String) {
+                mValidation.value = ValidationListener(str)
             }
         })
     }
