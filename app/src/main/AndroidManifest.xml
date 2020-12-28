@@ -16,7 +16,8 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".view.TaskFormActivity" />
         <activity android:name=".view.RegisterActivity" />
-        <activity android:name=".view.LoginActivity">
+        <activity android:name=".view.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
