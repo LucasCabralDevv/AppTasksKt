@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lucascabral.taskapplication.R
+import com.lucascabral.taskapplication.service.helper.FingerprintHelper
 import com.lucascabral.taskapplication.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -27,6 +28,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         // Verifica se usuário está logado
         verifyLoggedUser()
+
+        FingerprintHelper.isAuthenticationAvailable(this)
     }
 
     override fun onClick(v: View) {
