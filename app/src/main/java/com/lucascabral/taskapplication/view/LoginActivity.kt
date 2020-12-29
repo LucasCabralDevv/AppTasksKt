@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lucascabral.taskapplication.R
-import com.lucascabral.taskapplication.service.helper.FingerprintHelper
 import com.lucascabral.taskapplication.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.concurrent.Executor
@@ -29,11 +28,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         setListeners();
         observe()
 
-        // Verifica se usuário está logado
-        verifyLoggedUser()
-
-        //FingerprintHelper.isAuthenticationAvailable(this)
-        showAuthentication()
+        mViewModel.isAuthenticationAvailable()
     }
 
     override fun onClick(v: View) {
@@ -44,7 +39,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun showAuthentication() {
+    private fun showFingerprintAuthentication() {
         // Executor
         val executor: Executor = ContextCompat.getMainExecutor(this)
 
@@ -53,16 +48,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             this@LoginActivity,
             executor,
             object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationFailed() {
-                    super.onAuthenticationFailed()
-                }
-
-                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                    super.onAuthenticationError(errorCode, errString)
-                }
-
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
                 }
             })
 
@@ -84,14 +73,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         button_login.setOnClickListener(this)
         text_register.setOnClickListener(this)
     }
-
-    /**
-     * Verifica se usuário está logado
-     */
-    private fun verifyLoggedUser() {
-        mViewModel.verifyLoggedUser()
-    }
-
     /**
      * Observa ViewModel
      */
@@ -106,10 +87,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
 
-        mViewModel.loggedUser.observe(this, Observer {
+        mViewModel.fingerprint.observe(this, Observer {
             if (it) {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
+                showFingerprintAuthentication()
             }
         })
     }
